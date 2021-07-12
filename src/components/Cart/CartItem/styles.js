@@ -27,8 +27,9 @@ export const Price = styled.div`
   font-weight: bold;
 
   span {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: normal;
+    font-size: 1rem;
+    font-style: italic;
   }
 `;
 

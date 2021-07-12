@@ -9,7 +9,7 @@ export function CartItem(props) {
         <h3>{title}</h3>
         <Price>
           ${total.toFixed(2)}
-          <span>${price.toFixed(2)}/item)</span>
+          <span>(${price.toFixed(2)}/item)</span>
         </Price>
       </header>
         <Details>
