@@ -18,7 +18,7 @@ export function CartItem(props) {
   };
   
   function handleRemoveItem() {
-    dispatch(cartActions.removeItem());
+    dispatch(cartActions.removeItem(id));
   };
 
   return (
