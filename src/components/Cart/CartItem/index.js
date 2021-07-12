@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 
 import { Container, Details, Price, Quantity, Actions } from './styles';
 
