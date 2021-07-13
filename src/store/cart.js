@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { uiActions } from "./ui";
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -13,8 +15,8 @@ export const cartSlice = createSlice({
     },
     addItem(state, action) {
       const newItem = action.payload;
-      const existingItem = state.items.find(item => item.id === newItem.id);
-      state.totalQuantity++; 
+      const existingItem = state.items.find((item) => item.id === newItem.id);
+      state.totalQuantity++;
       if (!existingItem) {
         state.items.push({
           id: newItem.id,
@@ -30,16 +32,59 @@ export const cartSlice = createSlice({
     },
     removeItem(state, action) {
       const id = action.payload;
-      const existingItem = state.items.find(item => item.id === id)
-      
-      state.totalQuantity--; 
-      if(existingItem.quantity === 1) {
-        state.items = state.items.filter(item => item.id !== id) 
+      const existingItem = state.items.find((item) => item.id === id);
+
+      state.totalQuantity--;
+      if (existingItem.quantity === 1) {
+        state.items = state.items.filter((item) => item.id !== id);
       } else {
         existingItem.quantity--;
       }
     },
   },
 });
+
+export function sendCartData(cart) {
+  return async (dispatch) => {
+    dispatch(
+      uiActions.showNotification({
+        status: "success",
+        title: "Success...",
+        message: "Sent cart data successfully!",
+      })
+    );
+
+    async function sendReq() {
+      const res = await fetch(
+        "https://react-redux-cart-20c97-default-rtdb.firebaseio.com/cart.json",
+        {
+          method: "PUT",
+          body: JSON.stringify(cart),
+        }
+      );
+
+      if (!res.ok) throw new Error("Sending cart data failed");
+    }
+
+    try {
+      await sendReq();
+      dispatch(
+        uiActions.showNotification({
+          status: "success",
+          title: "Success...",
+          message: "Sent cart data successfully!",
+        })
+      );
+    } catch (err) {
+      dispatch(
+        uiActions.showNotification({
+          status: "pending",
+          title: "Sending...",
+          message: "Sending Cart Data!",
+        })
+      );
+    }
+  };
+}
 
 export const cartActions = cartSlice.actions;
